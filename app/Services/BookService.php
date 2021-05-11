@@ -3,9 +3,12 @@
 namespace App\Services;
 
 use App\Repositories\BookRepository;
+use App\Traits\ResponseAPI;
 
 class BookService
 {
+    use ResponseAPI;
+
     protected $bookRepository;
 
     public function __construct(BookRepository $bookReposirtory)
@@ -18,7 +21,7 @@ class BookService
         try 
         {
             $result = $this->bookRepository->get();
-            return $result;
+            return $this->success('Load Successfully',$result);
 
         } catch (\Throwable $th) 
         {
