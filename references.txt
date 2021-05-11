@@ -1,0 +1,8 @@
+//Repo Pattern
+https://blog.devgenius.io/laravel-api-repository-pattern-make-your-code-more-structured-the-simple-guide-5b770da766d7
+
+//JWT Token
+https://blog.pusher.com/laravel-jwt/
+
+//Rest Api with security
+https://blog.pusher.com/build-rest-api-laravel-api-resources/
