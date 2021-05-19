@@ -3,11 +3,14 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use App\Traits\ResponseApi;
 
 class BookRequest extends FormRequest
 {
 
-    public $validator = null;
+    use ResponseApi;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -31,16 +34,9 @@ class BookRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    protected function failedValidation(Validator $validator)
     {
-        return [
-            'title.required'         => 'The title field is required.',
-            'description.required'   => 'The description field is required.'
-        ];
-    }
-
-    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
-    {
-        return $this->validator = $validator;
+        $response = $this->failedValidationResponse($validator->errors());
+        throw new HttpResponseException(response()->json($response,400));
     }
 }

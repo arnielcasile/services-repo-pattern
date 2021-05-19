@@ -29,16 +29,16 @@ class BookRepository
 
     public function show($id)
     {
-        return BookResource::collection($this->bookModel->with('ratings')->where('id', $id)->get());
+        return $this->bookModel->with('ratings')->findOrFail($id);
     }
 
     public function update($book, $id)
     {
-        return $this->bookModel->where('id', $id)->update($book);
+        return $this->bookModel->findOrFail($id)->update($book);
     }
 
     public function delete($id)
     {
-        return $this->bookModel->where('id', $id)->delete();
+        return $this->bookModel->findOrFail($id)->delete();
     }
 }

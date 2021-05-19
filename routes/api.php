@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\TestUserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\RatingController;
@@ -22,11 +23,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
+
 Route::post('register',[AuthController::class,'register']);
 Route::post('login',[AuthController::class,'login']);
 Route::post('logout',[AuthController::class,'logout']);
+
+
 Route::post('user',[AuthController::class,'getAuthUser']);
-
-
 Route::apiResource('books', BookController::class);
 Route::post('books/{book}/ratings', [RatingController::class,'store']);
+

@@ -3,60 +3,52 @@
 namespace App\Traits;
 
 
-trait ResponseAPI
-{
-    /**
-     * Core of response
-     * 
-     * @param   string          $message
-     * @param   array|object    $data
-     * @param   integer         $statusCode  
-     * @param   boolean         $isSuccess
-     */
-    public function coreResponse($message, $data = null, $statusCode, $isSuccess = true)
-    {
-        // Check the params
-        if(!$message) return response()->json(['message' => 'Message is required'], 500);
+trait ResponseApi{
 
-        // Send the response
-        if($isSuccess) {
-            return response()->json([
-                'code'      => $statusCode,
-                'status'    => 'success',
-                'message'   => $message,
-                'data'      => $data
-            ], $statusCode);
-        } else {
-            return response()->json([
-                'code'      => $statusCode,
-                'status'    => 'error',
-                'message'   => $message,
-                
-                
-            ], $statusCode);
-        }
+    public function returnResponse($result)
+    {
+        return response()->json($result);
     }
 
-    /**
-     * Send any success response
-     * 
-     * @param   string          $message
-     * @param   array|object    $data
-     * @param   integer         $statusCode
-     */
-    public function success($message, $data, $statusCode = 200)
+    public function successResponse($message)
     {
-        return $this->coreResponse($message, $data, $statusCode);
+        return [
+            'status'        => 'success',
+            'status_code'   => 200,
+            'message'       => $message,
+        ];
     }
 
-    /**
-     * Send any error response
-     * 
-     * @param   string          $message
-     * @param   integer         $statusCode    
-     */
-    public function error($message, $statusCode = 500)
+    public function modelNotFoundResponse($id)
     {
-        return $this->coreResponse($message, null, $statusCode, false);
+        return [
+            'status'        => 'error',
+            'status_code'   =>  404,
+            'message'       => 'No Model Found',
+            'errors'         => ['id' => $id.' this id was not found']
+        ];
     }
+
+    public function errorResponse($e)
+    {
+        return [
+            'status'        => 'error',
+            'status_code'   =>  500,
+            'message'       => $e->getMessage(),
+            'class'         => get_class($e),
+            'errors'         => ['error' => 'Please contact the system developer']
+        ];
+    }
+
+    public function failedValidationResponse($errors)
+    {
+        return [
+            'status'        => 'warning',
+            'status_code'   =>  400,
+            'message'       => 'Validation Errors',
+            'error'         => $errors
+        ];
+    }
+
+
 }
