@@ -57,4 +57,11 @@ class AuthController extends Controller
         return $this->authServices->getAuthUser($request->token);
         
     }
+
+    public function authRefresh()
+    {
+        $newToken = auth()->refresh();
+
+        return $newToken;
+    }
 }
